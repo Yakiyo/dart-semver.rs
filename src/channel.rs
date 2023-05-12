@@ -1,4 +1,6 @@
+#[derive(Debug, Default)]
 pub enum Channel {
+    #[default]
     Stable,
     Beta,
     Dev,
