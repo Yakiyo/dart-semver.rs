@@ -1,9 +1,6 @@
-pub enum Channel {
-    Stable,
-    Beta,
-    Dev,
-    Main,
-}
+pub mod channel;
+
+use channel::*;
 
 pub struct Version {
     pub channel: Channel,
