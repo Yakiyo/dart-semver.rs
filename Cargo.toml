@@ -1,5 +1,6 @@
 [package]
-name = "rust-codespaces"
+name = "dart-semver"
+description = "Rust crate for parsing dart sdk's semver"
 version = "0.1.0"
 authors = ["Yakiyo <yakiyo1206@gmail.com>"]
 edition = "2018"
