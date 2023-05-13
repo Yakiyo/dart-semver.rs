@@ -18,7 +18,9 @@ impl VersionParser {
             prerelease: None,
             prerelease_patch: None,
         };
-        let parsed = VersionParser::parse(Rule::version, s).map_err(Box::from)?.flatten();
+        let parsed = VersionParser::parse(Rule::version, s)
+            .map_err(Box::from)?
+            .flatten();
         for pair in parsed {
             match pair.as_rule() {
                 Rule::channel => version.channel = pair.as_str().parse().unwrap(),
