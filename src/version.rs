@@ -1,5 +1,11 @@
 use crate::channel::Channel;
 
+/// A struct representing a version.
+/// 
+/// General format of dart-sdk's version - x.y.z-a.b.channel
+/// 
+/// Reference: https://github.com/dart-lang/sdk/blob/main/tools/VERSION
+#[derive(PartialEq, Debug)]
 pub struct Version {
     pub channel: Channel,
     pub major: usize,
