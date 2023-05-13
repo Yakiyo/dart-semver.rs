@@ -9,6 +9,12 @@ homepage = "https://github.com/Yakiyo/dart-semver.rs"
 repository = "https://github.com/Yakiyo/dart-semver.rs"
 documentation = "https://doc.rs/dart-semver"
 readme = "README.md"
+exclude = [
+    ".devcontainer/*",
+    ".github/*",
+    ".gitignore",
+    "CODE_OF_CONDUCT.md"
+]
 
 [dependencies]
 pest = "2.6.0"
