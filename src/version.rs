@@ -20,17 +20,13 @@ pub struct Version {
 impl Version {
     /// Wether the current version is a non-stable build or not
     pub fn is_stable(&self) -> bool {
-        match self.channel {
-            Channel::Stable => true,
-            _ => false,
-        }
+        matches!(self.channel, Channel::Stable)
     }
 
     /// Parse a version struct from a string
-    pub fn parse<P: AsRef<str>>(s: P) -> Result<Version, perror::Error<Rule>> {
+    pub fn parse<P: AsRef<str>>(s: P) -> Result<Version, Box<perror::Error<Rule>>> {
         VersionParser::version(s)
     }
-
     /// Convert version to string
     pub fn to_str(&self) -> String {
         let mut s = format!("{}.{}.{}", self.major, self.minor, self.patch);
@@ -48,7 +44,7 @@ impl Version {
 }
 
 impl std::str::FromStr for Version {
-    type Err = perror::Error<Rule>;
+    type Err = Box<perror::Error<Rule>>;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Version::parse(s)

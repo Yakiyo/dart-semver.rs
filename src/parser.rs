@@ -8,7 +8,7 @@ pub struct VersionParser;
 
 impl VersionParser {
     /// parse a string to a `Version` struct
-    pub fn version<S: AsRef<str>>(s: S) -> Result<Version, perror::Error<Rule>> {
+    pub fn version<S: AsRef<str>>(s: S) -> Result<Version, Box<perror::Error<Rule>>> {
         let s = s.as_ref();
         let mut version = Version {
             channel: Channel::Stable,
@@ -18,7 +18,7 @@ impl VersionParser {
             prerelease: None,
             prerelease_patch: None,
         };
-        let parsed = VersionParser::parse(Rule::version, s)?.flatten();
+        let parsed = VersionParser::parse(Rule::version, s).map_err(Box::from)?.flatten();
         for pair in parsed {
             match pair.as_rule() {
                 Rule::channel => version.channel = pair.as_str().parse().unwrap(),
