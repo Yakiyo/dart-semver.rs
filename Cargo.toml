@@ -7,7 +7,7 @@ edition = "2018"
 license = "MIT"
 homepage = "https://github.com/Yakiyo/dart-semver.rs"
 repository = "https://github.com/Yakiyo/dart-semver.rs"
-documentation = "https://doc.rs/dart-semver"
+documentation = "https://docs.rs/dart-semver"
 readme = "README.md"
 exclude = [
     ".devcontainer/*",
