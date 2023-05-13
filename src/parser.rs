@@ -21,6 +21,7 @@ impl VersionParser {
         let parsed = VersionParser::parse(Rule::version, s)?.flatten();
         for pair in parsed {
             match pair.as_rule() {
+                Rule::channel => version.channel = pair.as_str().parse().unwrap(),
                 Rule::major => version.major = pair.as_str().parse().unwrap(),
                 Rule::minor => version.minor = pair.as_str().parse().unwrap(),
                 Rule::patch => version.patch = pair.as_str().parse().unwrap(),
@@ -54,18 +55,32 @@ mod test {
 
     #[test]
     fn version_test() {
-        let version = VersionParser::version("3.4.5");
-        println!("{:#?}", version);
+        let version = VersionParser::version("3.4.5").unwrap();
+        let non_stable = VersionParser::version("3.4.5-6.7.dev").unwrap();
         assert_eq!(
             version,
-            Ok(Version {
+            Version {
                 channel: Channel::Stable,
                 major: 3,
                 minor: 4,
                 patch: 5,
                 prerelease: None,
                 prerelease_patch: None
-            })
+            }
         );
+        assert_eq!(
+            non_stable,
+            Version {
+                channel: Channel::Dev,
+                major: 3,
+                minor: 4,
+                patch: 5,
+                prerelease: Some(6),
+                prerelease_patch: Some(7),
+            }
+        );
+        assert!(version.is_stable());
+        assert!(!non_stable.is_stable());
+        println!("{} {}", version, non_stable);
     }
 }
