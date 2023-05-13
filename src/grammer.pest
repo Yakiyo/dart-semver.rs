@@ -1,0 +1,9 @@
+number  = { ASCII_DIGIT+ }
+major = { number }
+minor = { number }
+patch = { number }
+prerelease = { number }
+prerelease_patch = { number }
+channel = { "beta" | "dev" }
+extra = { "-" ~ prerelease ~ "." ~ prerelease_patch ~ "." ~ channel }
+version = { major ~ "." ~ minor ~ "." ~ patch ~ extra? }
