@@ -22,7 +22,6 @@ impl std::str::FromStr for Version {
     type Err = &'static str;
 
     fn from_str(_s: &str) -> Result<Self, Self::Err> {
-        
         Err("Invalid format")
     }
 }
