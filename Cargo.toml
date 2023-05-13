@@ -4,6 +4,11 @@ description = "Rust crate for parsing dart sdk's semver"
 version = "0.1.0"
 authors = ["Yakiyo <yakiyo1206@gmail.com>"]
 edition = "2018"
+license = "MIT"
+homepage = "https://github.com/Yakiyo/dart-semver.rs"
+repository = "https://github.com/Yakiyo/dart-semver.rs"
+documentation = "https://doc.rs/dart-semver"
+readme = "README.md"
 
 [dependencies]
 pest = "2.6.0"
