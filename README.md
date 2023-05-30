@@ -1,4 +1,5 @@
 # Dart Semver
+![Crates.io](https://img.shields.io/crates/v/dart-semver?color=blue) [![docs.rs](https://img.shields.io/docsrs/dart-semver?label=docs.rs&logo=docs.rs)](https://docs.rs/dart-semver/latest/dart_semver/) [![ci](https://github.com/Yakiyo/dart-semver/actions/workflows/ci.yml/badge.svg)](https://github.com/Yakiyo/dart-semver)
 Rust crate for parsing dart sdk's semver
 
 Pure rust implementation to parse a dart sdk version string to a rust struct.
