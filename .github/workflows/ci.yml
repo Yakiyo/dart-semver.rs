@@ -4,7 +4,7 @@ on: [ pull_request, push ]
 
 jobs:
   ci:
-    name: CI
+    name: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,3 +19,6 @@ jobs:
 
       - name: Style Check
         run: cargo fmt --check
+
+      - name: Tests
+        run: cargo test -- --show-output
