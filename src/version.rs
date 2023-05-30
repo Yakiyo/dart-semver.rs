@@ -73,7 +73,7 @@ impl Clone for Version {
 
 #[cfg(test)]
 mod test {
-    use super::{Version, Channel};
+    use super::{Channel, Version};
 
     #[test]
     fn version_test() {
