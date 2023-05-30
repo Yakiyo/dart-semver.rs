@@ -70,3 +70,23 @@ impl Clone for Version {
         Version::parse(self.to_str()).unwrap()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::{Version, Channel};
+
+    #[test]
+    fn version_test() {
+        assert_eq!(
+            Version::parse("4.3.4").unwrap(),
+            Version {
+                major: 4,
+                minor: 3,
+                patch: 4,
+                prerelease: None,
+                prerelease_patch: None,
+                channel: Channel::Stable
+            }
+        )
+    }
+}

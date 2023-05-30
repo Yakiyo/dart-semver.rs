@@ -45,3 +45,17 @@ impl std::convert::From<&str> for Channel {
         Channel::from_str(value).unwrap()
     }
 }
+
+#[cfg(test)]
+mod test {
+    use std::str::FromStr;
+
+    use super::Channel;
+
+    #[test]
+    fn channel_test() {
+        assert_eq!(Channel::from_str("3.0.1"), Ok(Channel::Stable));
+        assert_eq!(Channel::from_str("3.0.1-5.6.dev"), Ok(Channel::Dev));
+        assert_eq!(Channel::from_str("3.0.1-5.6.beta"), Ok(Channel::Beta));
+    }
+}
