@@ -1,4 +1,6 @@
-#[derive(Debug, Default, PartialEq)]
+use std::str::FromStr;
+
+#[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum Channel {
     #[default]
     Stable,
@@ -35,5 +37,11 @@ impl std::str::FromStr for Channel {
         } else {
             Ok(Channel::Stable)
         }
+    }
+}
+
+impl std::convert::From<&str> for Channel {
+    fn from(value: &str) -> Self {
+        Channel::from_str(value).unwrap()
     }
 }
