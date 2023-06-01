@@ -1,5 +1,6 @@
 use std::str::FromStr;
 
+/// Possible values for Dart SDK channels
 #[derive(Debug, Default, PartialEq, Clone, Copy)]
 pub enum Channel {
     #[default]
