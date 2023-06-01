@@ -5,7 +5,7 @@ Rust crate for parsing dart sdk's semver
 
 Pure rust implementation to parse a dart sdk version string to a rust struct.
 
-Reference: https://github.com/dart-lang/sdk/blob/main/tools/VERSION
+Reference: [0https://github.com/dart-lang/sdk/blob/main/tools/VERSION](https://github.com/dart-lang/sdk/blob/main/tools/VERSION)
 
 ## Usage
 Add the crate to Cargo.toml
