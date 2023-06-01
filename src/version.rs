@@ -1,5 +1,3 @@
-use std::str::FromStr;
-
 use crate::channel::Channel;
 use crate::parser::{Rule, VersionParser};
 use pest::error as perror;
@@ -8,7 +6,7 @@ use pest::error as perror;
 ///
 /// General format of dart-sdk's version - x.y.z-a.b.channel
 ///
-/// Reference: https://github.com/dart-lang/sdk/blob/main/tools/VERSION
+/// Reference: [https://github.com/dart-lang/sdk/blob/main/tools/VERSION](https://github.com/dart-lang/sdk/blob/main/tools/VERSION)
 #[derive(PartialEq, Debug, Default, Copy)]
 pub struct Version {
     pub channel: Channel,
@@ -56,12 +54,6 @@ impl std::str::FromStr for Version {
 impl std::fmt::Display for Version {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.to_str())
-    }
-}
-
-impl std::convert::From<&str> for Version {
-    fn from(value: &str) -> Self {
-        Version::from_str(value).unwrap()
     }
 }
 
