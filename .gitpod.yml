@@ -1,0 +1,12 @@
+
+tasks:
+  - init: cargo build
+    command: cargo test
+
+
+
+vscode:
+  extensions:
+    - rust-lang.rust-analyzer
+
+
