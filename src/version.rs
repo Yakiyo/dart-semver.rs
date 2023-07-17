@@ -1,50 +1,53 @@
 use crate::channel::Channel;
-use crate::parser::{Rule, VersionParser};
-use pest::error as perror;
+use crate::parser::Rule;
+use crate::parser::VersionParser;
 
-/// A struct representing a version.
-///
-/// General format of dart-sdk's version - x.y.z-a.b.channel
-///
-/// Reference: [https://github.com/dart-lang/sdk/blob/main/tools/VERSION](https://github.com/dart-lang/sdk/blob/main/tools/VERSION)
-#[derive(PartialEq, Debug, Default, Copy)]
-pub struct Version {
-    pub channel: Channel,
-    pub major: usize,
-    pub minor: usize,
-    pub patch: usize,
-    pub prerelease: Option<usize>,
-    pub prerelease_patch: Option<usize>,
+/// An enum of possible version formats
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum Version {
+    /// Major, Minor, patch - v2.3.4
+    FullStable(usize, usize, usize),
+    /// Major, minor - v3.1
+    MajorMinor(usize, usize),
+    /// Major v3
+    MajorOnly(usize),
+    /// Major, Minor, Patch, Prerelease, Prerelease-patch, Channel - v3.1.2-4.5.beta
+    NonStable(usize, usize, usize, usize, usize, Channel),
 }
 
 impl Version {
-    /// Wether the current version is a non-stable build or not
+    /// Parse version from a string
+    pub fn parse<S: AsRef<str>>(s: S) -> Result<Version, Box<pest::error::Error<Rule>>> {
+        VersionParser::version(s.as_ref())
+    }
+    /// If version is stable or not
     pub fn is_stable(&self) -> bool {
-        matches!(self.channel, Channel::Stable)
+        !matches!(self, Self::NonStable(..))
     }
 
-    /// Parse a version struct from a string
-    pub fn parse<P: AsRef<str>>(s: P) -> Result<Version, Box<perror::Error<Rule>>> {
-        VersionParser::version(s)
-    }
-    /// Convert version to string
-    pub fn to_str(&self) -> String {
-        let mut s = format!("{}.{}.{}", self.major, self.minor, self.patch);
-        if !self.is_stable() {
-            s += format!(
-                "-{}.{}.{}",
-                self.prerelease.unwrap(),
-                self.prerelease_patch.unwrap(),
-                self.channel
-            )
-            .as_str();
+    /// Returns the channel of the version string
+    pub fn channel(&self) -> Channel {
+        match self {
+            Self::NonStable(.., c) => *c,
+            _ => Channel::Stable,
         }
-        s
+    }
+
+    /// String representation of the version
+    pub fn as_string(&self) -> String {
+        match self {
+            Self::MajorOnly(major) => format!("v{major}"),
+            Self::MajorMinor(major, minor) => format!("v{major}.{minor}"),
+            Self::FullStable(major, minor, patch) => format!("v{major}.{minor}.{patch}"),
+            Self::NonStable(ma, mi, pa, pr, prp, c) => {
+                format!("v{ma}.{mi}.{pa}-{pr}.{prp}.{c}")
+            }
+        }
     }
 }
 
 impl std::str::FromStr for Version {
-    type Err = Box<perror::Error<Rule>>;
+    type Err = Box<pest::error::Error<Rule>>;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Version::parse(s)
@@ -53,32 +56,47 @@ impl std::str::FromStr for Version {
 
 impl std::fmt::Display for Version {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.to_str())
+        write!(f, "{}", self.as_string())
     }
 }
 
-impl Clone for Version {
-    fn clone(&self) -> Self {
-        Version::parse(self.to_str()).unwrap()
+impl std::default::Default for Version {
+    fn default() -> Self {
+        Version::MajorOnly(0)
     }
 }
 
 #[cfg(test)]
 mod test {
-    use super::{Channel, Version};
+    use super::*;
 
     #[test]
     fn version_test() {
         assert_eq!(
-            Version::parse("4.3.4").unwrap(),
-            Version {
-                major: 4,
-                minor: 3,
-                patch: 4,
-                prerelease: None,
-                prerelease_patch: None,
-                channel: Channel::Stable
-            }
-        )
+            Version::parse("v3.4.5").unwrap(),
+            Version::FullStable(3, 4, 5)
+        );
+    }
+
+    #[test]
+    fn stable_test() {
+        assert!(Version::parse("v3").unwrap().is_stable());
+        assert!(!Version::parse("v3.4.5-1.2.beta").unwrap().is_stable());
+    }
+
+    #[test]
+    fn format_str_test() {
+        assert_eq!(
+            Version::parse("v3.4.5").unwrap().as_string(),
+            String::from("v3.4.5")
+        );
+        assert_eq!(
+            Version::parse("v3.4.5-1.2.dev").unwrap().as_string(),
+            String::from("v3.4.5-1.2.dev")
+        );
+        assert_ne!(
+            Version::parse("v3.4.5-1.2.dev").unwrap().as_string(),
+            String::from("v3.4.5")
+        );
     }
 }

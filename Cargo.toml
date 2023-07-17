@@ -17,5 +17,5 @@ exclude = [
 ]
 
 [dependencies]
-pest = "2.6.0"
-pest_derive = "2.6.0"
+pest = "2.7.0"
+pest_derive = "2.7.0"

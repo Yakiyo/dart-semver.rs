@@ -59,4 +59,11 @@ mod test {
         assert_eq!(Channel::from_str("3.0.1-5.6.dev"), Ok(Channel::Dev));
         assert_eq!(Channel::from_str("3.0.1-5.6.beta"), Ok(Channel::Beta));
     }
+
+    #[test]
+    fn format_str_test() {
+        assert_eq!(Channel::Dev.to_str(), "dev");
+        assert_eq!(Channel::Beta.to_str(), "beta");
+        assert_eq!(Channel::Stable.to_str(), "stable");
+    }
 }

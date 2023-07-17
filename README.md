@@ -6,7 +6,7 @@ Rust crate for parsing dart sdk's semver
 Pure rust implementation to parse a dart sdk version string to a rust struct.
 
 Reference: [https://github.com/dart-lang/sdk/blob/main/tools/VERSION](https://github.com/dart-lang/sdk/blob/main/tools/VERSION)
-
+Documentation: [docs.rs/dart-semver](https://docs.rs/dart-semver/latest/dart_semver/)
 ## Usage
 Add the crate to Cargo.toml
 ```bash
@@ -18,13 +18,7 @@ use dart_semver::{Version, Channel};
 
 let v = Version::parse("4.3.4").unwrap();
 
-assert_eq!(v, Version {
-    major: 4,
-    minor: 3,
-    patch: 4,
-    prerelease: None,
-    prerelease_patch: None,
-    channel: Channel::Stable
-})
+assert_eq!(v, Version::FullStable(4, 3, 4));
+assert!(v.is_stable());
 
 ```
