@@ -15,7 +15,7 @@ impl VersionParser {
             .flatten()
             .map(|f| (f.as_rule(), f.as_str().to_string()))
             .collect();
-        
+
         Ok(flattened)
     }
 }
