@@ -10,5 +10,5 @@ major_only = { major }
 major_minor = { major ~ "." ~ minor }
 full_stable = { major ~ "." ~ minor ~ "." ~ patch }
 stable = { full_stable | major_minor | major_only }
-non_stable = { full_stable ~ extra }
+non_stable = { major ~ "." ~ minor ~ "." ~ patch ~ extra }
 version = { "v"? ~ non_stable | stable }
