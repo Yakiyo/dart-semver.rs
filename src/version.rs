@@ -55,3 +55,9 @@ impl std::fmt::Display for Version {
         write!(f, "{}", self.as_string())
     }
 }
+
+impl std::default::Default for Version {
+    fn default() -> Self {
+        Version::MajorOnly(0)
+    }
+}
