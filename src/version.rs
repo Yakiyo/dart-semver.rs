@@ -1,4 +1,6 @@
 use crate::channel::Channel;
+use crate::parser::Rule;
+use crate::parser::VersionParser;
 
 /// An enum of possible version formats
 #[derive(Debug, PartialEq, Clone, Copy)]
@@ -16,15 +18,7 @@ pub enum Version {
 impl Version {
     /// If version is stable or not
     pub fn is_stable(&self) -> bool {
-        if matches!(self, Self::NonStable(..)) {
-            false
-        } else {
-            true
-        }
-        // match self {
-        //     Self::NonStable(..) => false,
-        //     _ => true,
-        // }
+        matches!(self, Self::NonStable(..))
     }
 
     /// Returns the channel of the version string
@@ -45,6 +39,14 @@ impl Version {
                 format!("v{ma}.{mi}.{pa}-{pr}.{prp}.{c}")
             }
         }
+    }
+}
+
+impl std::str::FromStr for Version {
+    type Err = Box<pest::error::Error<Rule>>;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        VersionParser::version(s)
     }
 }
 
