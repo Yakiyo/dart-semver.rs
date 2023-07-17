@@ -72,7 +72,10 @@ mod test {
 
     #[test]
     fn version_test() {
-        assert_eq!(Version::parse("v3.4.5").unwrap(), Version::FullStable(3, 4, 5));
+        assert_eq!(
+            Version::parse("v3.4.5").unwrap(),
+            Version::FullStable(3, 4, 5)
+        );
     }
 
     #[test]
@@ -83,8 +86,17 @@ mod test {
 
     #[test]
     fn format_str_test() {
-        assert_eq!(Version::parse("v3.4.5").unwrap().as_string(), String::from("v3.4.5"));
-        assert_eq!(Version::parse("v3.4.5-1.2.dev").unwrap().as_string(), String::from("v3.4.5-1.2.dev"));
-        assert_ne!(Version::parse("v3.4.5-1.2.dev").unwrap().as_string(), String::from("v3.4.5"));
+        assert_eq!(
+            Version::parse("v3.4.5").unwrap().as_string(),
+            String::from("v3.4.5")
+        );
+        assert_eq!(
+            Version::parse("v3.4.5-1.2.dev").unwrap().as_string(),
+            String::from("v3.4.5-1.2.dev")
+        );
+        assert_ne!(
+            Version::parse("v3.4.5-1.2.dev").unwrap().as_string(),
+            String::from("v3.4.5")
+        );
     }
 }
